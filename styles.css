@@ -763,8 +763,8 @@ body.nav-open { overflow: hidden; }
 }
 .hero-logo-frame {
   position: relative;
-  width: 74%;
-  aspect-ratio: 1;
+  width: 82%;
+  aspect-ratio: 4 / 5;
   margin-inline: auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
