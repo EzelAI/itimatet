@@ -42,7 +42,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -595,8 +595,9 @@ body.nav-open { overflow: hidden; }
 .info-row p { color: var(--color-muted); font-size: 0.92rem; }
 .info-row a:hover { color: var(--color-red); }
 .hours-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.hours-table tr { display: flex; justify-content: space-between; gap: 0.75rem; }
 .hours-table td { padding: 0.2rem 0; color: var(--color-muted); }
-.hours-table td:last-child { text-align: right; font-weight: 600; color: var(--color-ink); }
+.hours-table td:last-child { text-align: right; font-weight: 600; color: var(--color-ink); white-space: nowrap; }
 .hours-note {
   margin-top: 0.75rem;
   font-size: 0.78rem;
@@ -864,3 +865,91 @@ body.nav-open { overflow: hidden; }
 .about-badge span { display: block; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 0.2rem; }
 .about-strip-copy p { color: var(--color-ink-soft); font-size: 1rem; max-width: 62ch; }
 .about-strip-copy .eyebrow { margin-bottom: 0.5rem; }
+
+/* ================================================================
+   MOBILE REFINEMENTS — phone is the priority breakpoint
+   ================================================================ */
+
+/* Safety net: header never overflows horizontally, whatever the
+   viewport — brand truncates before the layout breaks. */
+.header-inner { flex-wrap: nowrap; }
+.brand { min-width: 0; flex-shrink: 1; }
+.brand-text { min-width: 0; }
+.brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-actions { flex-shrink: 0; }
+
+/* Compact header below tablet: icon-only call button, no subtitle,
+   tighter gaps. Prevents the logo + full phone number + icons from
+   overflowing on real phone widths (320–428px). */
+@media (max-width: 699px) {
+  .site-header .container { padding-inline: 1rem; }
+  .header-inner { gap: 0.6rem; padding-block: 0.7rem; }
+  .brand { gap: 0.55rem; }
+  .brand-mark { width: 40px; height: 40px; }
+  .brand-sub { display: none; }
+  .brand-name { font-size: 1.05rem; }
+  .header-actions { gap: 0.5rem; }
+  .header-actions .btn--primary {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+  .header-actions .btn--primary .btn-label { display: none; }
+  .header-actions .btn--primary svg { width: 19px; height: 19px; }
+}
+
+/* Tighter section rhythm + smaller display type on phones so the
+   page doesn't feel like endless scrolling. */
+@media (max-width: 640px) {
+  .section { padding-block: var(--space-xl); }
+  .section--products { padding-block: var(--space-lg) var(--space-xl); }
+  .about-strip { padding-block: var(--space-lg); }
+  .hero-inner { padding-block: var(--space-lg) var(--space-lg); }
+  .section-head h2 { font-size: clamp(1.5rem, 6vw, 1.9rem); }
+  .hero h1 { font-size: clamp(1.9rem, 8vw, 2.6rem); max-width: 13ch; }
+  .hero-lede { font-size: 1rem; }
+}
+
+/* Hero brand mark: show a compact version on phones too (previously
+   desktop-only), placed above the headline so the logo reads first. */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  max-width: 220px;
+  margin-inline: auto;
+  order: -1;
+}
+@media (min-width: 980px) {
+  .hero-visual { max-width: none; margin-inline: 0; order: 0; }
+}
+
+/* Hero stats: keep a steady 3-up row instead of an uneven 2+1 wrap,
+   with padding/type that fit a narrow screen. */
+@media (max-width: 520px) {
+  .hero-stats { grid-template-columns: repeat(3, 1fr); max-width: none; }
+  .hero-stat { padding: 0.85rem 0.5rem; }
+  .hero-stat strong { font-size: 1.1rem; }
+  .hero-stat span { font-size: 0.66rem; line-height: 1.3; }
+  .hero-actions { gap: 0.75rem; }
+  .hero-actions .btn { flex: 1 1 auto; }
+}
+
+/* Trust strip: two cramped columns of wrapping text read poorly on
+   a phone — stack to one column so each item stays legible. */
+@media (max-width: 479px) {
+  .trust-grid { grid-template-columns: 1fr; gap: 0.9rem; padding-block: var(--space-md); }
+}
+
+/* Location info card: desktop padding is too heavy on a 320–428px
+   viewport, eating into the already-narrow text column. */
+@media (max-width: 479px) {
+  .info-card { padding: var(--space-md); }
+  .map-frame { min-height: 260px; }
+  .map-frame iframe { min-height: 260px; }
+}
+
+/* CTA phone number: avoid it ever needing to wrap awkwardly. */
+@media (max-width: 380px) {
+  .cta-phone { font-size: 1.4rem; }
+}
