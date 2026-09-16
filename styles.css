@@ -916,14 +916,36 @@ body.nav-open { overflow: hidden; }
   .hero-lede { font-size: 1rem; }
 }
 
-/* Hero brand mark: show a compact version on phones too (previously
-   desktop-only), placed above the headline so the logo reads first. */
+/* Hero cover image: full-bleed, near-full-viewport opening screen on
+   phones (previously a small 220px card) — the photo IS the first
+   screen; headline/CTAs/stats are what scrolling reveals next. */
 .hero-visual {
   display: flex;
   justify-content: center;
-  max-width: 220px;
-  margin-inline: auto;
   order: -1;
+}
+@media (max-width: 979px) {
+  .hero-inner { padding-top: 0; }
+  .hero-copy { padding-top: var(--space-lg); }
+  .hero-visual {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    margin-bottom: 0;
+  }
+  .hero-ring { display: none; }
+  .hero-logo-frame {
+    width: 100%;
+    aspect-ratio: auto;
+    height: calc(100vh - 68px);
+    height: calc(100dvh - 68px);
+    min-height: 380px;
+    max-height: 720px;
+    margin-inline: 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 4px solid var(--color-gold-soft);
+    box-shadow: none;
+  }
 }
 @media (min-width: 980px) {
   .hero-visual { max-width: none; margin-inline: 0; order: 0; }
