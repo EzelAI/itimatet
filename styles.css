@@ -935,11 +935,12 @@ body.nav-open { overflow: hidden; }
   .hero-ring { display: none; }
   .hero-logo-frame {
     width: 100%;
-    aspect-ratio: auto;
-    height: calc(100vh - 68px);
-    height: calc(100dvh - 68px);
-    min-height: 380px;
-    max-height: 720px;
+    /* Matches the source photo's own ratio (1856:2304) so the image
+       is never cropped sideways — a fixed viewport-height box forced
+       the wrong crop on wide banner text near the top of the photo.
+       Width stays fixed (100vw) so height simply follows the ratio;
+       no max-height, so it can never fight the ratio and re-crop. */
+    aspect-ratio: 1856 / 2304;
     margin-inline: 0;
     border-radius: 0;
     border: none;
